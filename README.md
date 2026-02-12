@@ -25,7 +25,7 @@ Runtime: GitHub Actions `node24`.
 
 ## What It Does
 
-1. Initializes Puter SDK with your auth token (`@heyputer/puter.js/src/init.cjs`).
+1. Initializes Puter SDK from the bundled runtime (`@heyputer/puter.js/dist/puter.cjs`) and sets your auth token.
 2. Ensures `puter_path` exists as a directory.
 3. Uploads files from `source_path` using upsert behavior (`puter.fs.write(..., { overwrite: true, createMissingParents: true })`).
 4. Reads subdomain mapping with `puter.hosting.get(subdomain)`.

@@ -1,5 +1,5 @@
 import * as core from "@actions/core";
-import { init } from "@heyputer/puter.js/src/init.cjs";
+import "@heyputer/puter.js/dist/puter.cjs";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -175,6 +175,16 @@ async function ensureSubdomainBinding(puter, subdomain, puterPath, desiredRootUi
     return { action: "updated", site: updated };
 }
 
+function initPuterFromBundle(token) {
+    const puter = globalThis.puter;
+    if (!puter || typeof puter.setAuthToken !== "function") {
+        throw new Error("Failed to initialize Puter SDK from bundled runtime.");
+    }
+
+    puter.setAuthToken(token);
+    return puter;
+}
+
 async function run() {
     const subdomain = core.getInput("subdomain", { required: true }).trim();
     const puterPath = core.getInput("puter_path", { required: true }).trim();
@@ -205,7 +215,7 @@ async function run() {
     core.info(`Puter path: ${puterPath}`);
     core.info(`Subdomain: ${subdomain}`);
 
-    const puter = init(token);
+    const puter = initPuterFromBundle(token);
     const rootDir = await ensureRemoteDirectory(puter, puterPath);
     const files = await collectFiles(sourcePath, includeHidden);
 
