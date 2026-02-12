@@ -2,7 +2,7 @@
 
 Deploys a repository folder (or file) to Puter FS, then ensures a Puter subdomain points at that folder.
 
-This action is bundled into `dist/index.js` and ships with:
+This action is bundled into `dist/index.cjs` and ships with:
 - `@heyputer/puter.js`
 - `@actions/core`
 
@@ -67,7 +67,7 @@ npm run check
 npm run build
 ```
 
-Commit `dist/index.js` after building. GitHub Actions executes that committed bundle directly.
+Commit `dist/index.cjs` after building. GitHub Actions executes that committed bundle directly.
 
 ## Publish This Action
 
@@ -98,7 +98,7 @@ When you change `src/deploy.mjs`, rebuild before tagging:
 
 ```bash
 npm run build:clean
-git add src/deploy.mjs dist/index.js
+git add src/deploy.mjs dist/index.cjs
 git commit -m "Rebuild action bundle"
 ```
 

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "check": "node --check src/deploy.mjs",
-    "build": "esbuild src/deploy.mjs --bundle --platform=node --format=cjs --target=node24 --outfile=dist/index.js",
+    "build": "esbuild src/deploy.mjs --bundle --platform=node --format=cjs --target=node24 --outfile=dist/index.cjs",
     "build:clean": "rm -rf dist && npm run build"
   },
   "devDependencies": {
