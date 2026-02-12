@@ -4,8 +4,15 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -23,6 +30,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/@actions/core/lib/utils.js
 var require_utils = __commonJS({
@@ -89,11 +97,11 @@ var require_command = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.issue = exports2.issueCommand = void 0;
-    var os = __importStar(require("os"));
+    var os2 = __importStar(require("os"));
     var utils_1 = require_utils();
     function issueCommand(command, properties, message) {
       const cmd = new Command(command, properties, message);
-      process.stdout.write(cmd.toString() + os.EOL);
+      process.stdout.write(cmd.toString() + os2.EOL);
     }
     exports2.issueCommand = issueCommand;
     function issue(name, message = "") {
@@ -176,18 +184,18 @@ var require_file_command = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.prepareKeyValueMessage = exports2.issueFileCommand = void 0;
     var crypto = __importStar(require("crypto"));
-    var fs2 = __importStar(require("fs"));
-    var os = __importStar(require("os"));
+    var fs7 = __importStar(require("fs"));
+    var os2 = __importStar(require("os"));
     var utils_1 = require_utils();
     function issueFileCommand(command, message) {
       const filePath = process.env[`GITHUB_${command}`];
       if (!filePath) {
         throw new Error(`Unable to find environment variable for file command ${command}`);
       }
-      if (!fs2.existsSync(filePath)) {
+      if (!fs7.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
       }
-      fs2.appendFileSync(filePath, `${(0, utils_1.toCommandValue)(message)}${os.EOL}`, {
+      fs7.appendFileSync(filePath, `${(0, utils_1.toCommandValue)(message)}${os2.EOL}`, {
         encoding: "utf8"
       });
     }
@@ -201,7 +209,7 @@ var require_file_command = __commonJS({
       if (convertedValue.includes(delimiter)) {
         throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter}"`);
       }
-      return `${key}<<${delimiter}${os.EOL}${convertedValue}${os.EOL}${delimiter}`;
+      return `${key}<<${delimiter}${os2.EOL}${convertedValue}${os2.EOL}${delimiter}`;
     }
     exports2.prepareKeyValueMessage = prepareKeyValueMessage;
   }
@@ -990,14 +998,14 @@ var require_util = __commonJS({
         }
         const port = url.port != null ? url.port : url.protocol === "https:" ? 443 : 80;
         let origin = url.origin != null ? url.origin : `${url.protocol}//${url.hostname}:${port}`;
-        let path2 = url.path != null ? url.path : `${url.pathname || ""}${url.search || ""}`;
+        let path3 = url.path != null ? url.path : `${url.pathname || ""}${url.search || ""}`;
         if (origin.endsWith("/")) {
           origin = origin.substring(0, origin.length - 1);
         }
-        if (path2 && !path2.startsWith("/")) {
-          path2 = `/${path2}`;
+        if (path3 && !path3.startsWith("/")) {
+          path3 = `/${path3}`;
         }
-        url = new URL(origin + path2);
+        url = new URL(origin + path3);
       }
       return url;
     }
@@ -2611,20 +2619,20 @@ var require_parseParams = __commonJS({
 var require_basename = __commonJS({
   "node_modules/@fastify/busboy/lib/utils/basename.js"(exports2, module2) {
     "use strict";
-    module2.exports = function basename(path2) {
-      if (typeof path2 !== "string") {
+    module2.exports = function basename(path3) {
+      if (typeof path3 !== "string") {
         return "";
       }
-      for (var i = path2.length - 1; i >= 0; --i) {
-        switch (path2.charCodeAt(i)) {
+      for (var i = path3.length - 1; i >= 0; --i) {
+        switch (path3.charCodeAt(i)) {
           case 47:
           // '/'
           case 92:
-            path2 = path2.slice(i + 1);
-            return path2 === ".." || path2 === "." ? "" : path2;
+            path3 = path3.slice(i + 1);
+            return path3 === ".." || path3 === "." ? "" : path3;
         }
       }
-      return path2 === ".." || path2 === "." ? "" : path2;
+      return path3 === ".." || path3 === "." ? "" : path3;
     };
   }
 });
@@ -5654,7 +5662,7 @@ var require_request = __commonJS({
     }
     var Request = class _Request {
       constructor(origin, {
-        path: path2,
+        path: path3,
         method,
         body,
         headers,
@@ -5668,11 +5676,11 @@ var require_request = __commonJS({
         throwOnError,
         expectContinue
       }, handler) {
-        if (typeof path2 !== "string") {
+        if (typeof path3 !== "string") {
           throw new InvalidArgumentError("path must be a string");
-        } else if (path2[0] !== "/" && !(path2.startsWith("http://") || path2.startsWith("https://")) && method !== "CONNECT") {
+        } else if (path3[0] !== "/" && !(path3.startsWith("http://") || path3.startsWith("https://")) && method !== "CONNECT") {
           throw new InvalidArgumentError("path must be an absolute URL or start with a slash");
-        } else if (invalidPathRegex.exec(path2) !== null) {
+        } else if (invalidPathRegex.exec(path3) !== null) {
           throw new InvalidArgumentError("invalid request path");
         }
         if (typeof method !== "string") {
@@ -5735,7 +5743,7 @@ var require_request = __commonJS({
         this.completed = false;
         this.aborted = false;
         this.upgrade = upgrade || null;
-        this.path = query ? util.buildURL(path2, query) : path2;
+        this.path = query ? util.buildURL(path3, query) : path3;
         this.origin = origin;
         this.idempotent = idempotent == null ? method === "HEAD" || method === "GET" : idempotent;
         this.blocking = blocking == null ? false : blocking;
@@ -6743,9 +6751,9 @@ var require_RedirectHandler = __commonJS({
           return this.handler.onHeaders(statusCode, headers, resume, statusText);
         }
         const { origin, pathname, search } = util.parseURL(new URL(this.location, this.opts.origin && new URL(this.opts.path, this.opts.origin)));
-        const path2 = search ? `${pathname}${search}` : pathname;
+        const path3 = search ? `${pathname}${search}` : pathname;
         this.opts.headers = cleanRequestHeaders(this.opts.headers, statusCode === 303, this.opts.origin !== origin);
-        this.opts.path = path2;
+        this.opts.path = path3;
         this.opts.origin = origin;
         this.opts.maxRedirections = 0;
         this.opts.query = null;
@@ -7985,7 +7993,7 @@ var require_client = __commonJS({
         writeH2(client, client[kHTTP2Session], request);
         return;
       }
-      const { body, method, path: path2, host, upgrade, headers, blocking, reset } = request;
+      const { body, method, path: path3, host, upgrade, headers, blocking, reset } = request;
       const expectsPayload = method === "PUT" || method === "POST" || method === "PATCH";
       if (body && typeof body.read === "function") {
         body.read(0);
@@ -8035,7 +8043,7 @@ var require_client = __commonJS({
       if (blocking) {
         socket[kBlocking] = true;
       }
-      let header = `${method} ${path2} HTTP/1.1\r
+      let header = `${method} ${path3} HTTP/1.1\r
 `;
       if (typeof host === "string") {
         header += `host: ${host}\r
@@ -8098,7 +8106,7 @@ upgrade: ${upgrade}\r
       return true;
     }
     function writeH2(client, session, request) {
-      const { body, method, path: path2, host, upgrade, expectContinue, signal, headers: reqHeaders } = request;
+      const { body, method, path: path3, host, upgrade, expectContinue, signal, headers: reqHeaders } = request;
       let headers;
       if (typeof reqHeaders === "string") headers = Request[kHTTP2CopyHeaders](reqHeaders.trim());
       else headers = reqHeaders;
@@ -8141,7 +8149,7 @@ upgrade: ${upgrade}\r
         });
         return true;
       }
-      headers[HTTP2_HEADER_PATH] = path2;
+      headers[HTTP2_HEADER_PATH] = path3;
       headers[HTTP2_HEADER_SCHEME] = "https";
       const expectsPayload = method === "PUT" || method === "POST" || method === "PATCH";
       if (body && typeof body.read === "function") {
@@ -10381,20 +10389,20 @@ var require_mock_utils = __commonJS({
       }
       return true;
     }
-    function safeUrl(path2) {
-      if (typeof path2 !== "string") {
-        return path2;
+    function safeUrl(path3) {
+      if (typeof path3 !== "string") {
+        return path3;
       }
-      const pathSegments = path2.split("?");
+      const pathSegments = path3.split("?");
       if (pathSegments.length !== 2) {
-        return path2;
+        return path3;
       }
       const qp = new URLSearchParams(pathSegments.pop());
       qp.sort();
       return [...pathSegments, qp.toString()].join("?");
     }
-    function matchKey(mockDispatch2, { path: path2, method, body, headers }) {
-      const pathMatch = matchValue(mockDispatch2.path, path2);
+    function matchKey(mockDispatch2, { path: path3, method, body, headers }) {
+      const pathMatch = matchValue(mockDispatch2.path, path3);
       const methodMatch = matchValue(mockDispatch2.method, method);
       const bodyMatch = typeof mockDispatch2.body !== "undefined" ? matchValue(mockDispatch2.body, body) : true;
       const headersMatch = matchHeaders(mockDispatch2, headers);
@@ -10412,7 +10420,7 @@ var require_mock_utils = __commonJS({
     function getMockDispatch(mockDispatches, key) {
       const basePath = key.query ? buildURL(key.path, key.query) : key.path;
       const resolvedPath = typeof basePath === "string" ? safeUrl(basePath) : basePath;
-      let matchedMockDispatches = mockDispatches.filter(({ consumed }) => !consumed).filter(({ path: path2 }) => matchValue(safeUrl(path2), resolvedPath));
+      let matchedMockDispatches = mockDispatches.filter(({ consumed }) => !consumed).filter(({ path: path3 }) => matchValue(safeUrl(path3), resolvedPath));
       if (matchedMockDispatches.length === 0) {
         throw new MockNotMatchedError(`Mock dispatch not matched for path '${resolvedPath}'`);
       }
@@ -10449,9 +10457,9 @@ var require_mock_utils = __commonJS({
       }
     }
     function buildKey(opts) {
-      const { path: path2, method, body, headers, query } = opts;
+      const { path: path3, method, body, headers, query } = opts;
       return {
-        path: path2,
+        path: path3,
         method,
         body,
         headers,
@@ -10745,7 +10753,7 @@ var require_mock_interceptor = __commonJS({
 var require_mock_client = __commonJS({
   "node_modules/undici/lib/mock/mock-client.js"(exports2, module2) {
     "use strict";
-    var { promisify } = require("util");
+    var { promisify: promisify6 } = require("util");
     var Client = require_client();
     var { buildMockDispatch } = require_mock_utils();
     var {
@@ -10785,7 +10793,7 @@ var require_mock_client = __commonJS({
         return new MockInterceptor(opts, this[kDispatches]);
       }
       async [kClose]() {
-        await promisify(this[kOriginalClose])();
+        await promisify6(this[kOriginalClose])();
         this[kConnected] = 0;
         this[kMockAgent][Symbols.kClients].delete(this[kOrigin]);
       }
@@ -10798,7 +10806,7 @@ var require_mock_client = __commonJS({
 var require_mock_pool = __commonJS({
   "node_modules/undici/lib/mock/mock-pool.js"(exports2, module2) {
     "use strict";
-    var { promisify } = require("util");
+    var { promisify: promisify6 } = require("util");
     var Pool = require_pool();
     var { buildMockDispatch } = require_mock_utils();
     var {
@@ -10838,7 +10846,7 @@ var require_mock_pool = __commonJS({
         return new MockInterceptor(opts, this[kDispatches]);
       }
       async [kClose]() {
-        await promisify(this[kOriginalClose])();
+        await promisify6(this[kOriginalClose])();
         this[kConnected] = 0;
         this[kMockAgent][Symbols.kClients].delete(this[kOrigin]);
       }
@@ -10900,10 +10908,10 @@ var require_pending_interceptors_formatter = __commonJS({
       }
       format(pendingInterceptors) {
         const withPrettyHeaders = pendingInterceptors.map(
-          ({ method, path: path2, data: { statusCode }, persist, times, timesInvoked, origin }) => ({
+          ({ method, path: path3, data: { statusCode }, persist, times, timesInvoked, origin }) => ({
             Method: method,
             Origin: origin,
-            Path: path2,
+            Path: path3,
             "Status code": statusCode,
             Persistent: persist ? "\u2705" : "\u274C",
             Invocations: timesInvoked,
@@ -15523,8 +15531,8 @@ var require_util6 = __commonJS({
         }
       }
     }
-    function validateCookiePath(path2) {
-      for (const char of path2) {
+    function validateCookiePath(path3) {
+      for (const char of path3) {
         const code = char.charCodeAt(0);
         if (code < 33 || char === ";") {
           throw new Error("Invalid cookie path");
@@ -17204,11 +17212,11 @@ var require_undici = __commonJS({
           if (typeof opts.path !== "string") {
             throw new InvalidArgumentError("invalid opts.path");
           }
-          let path2 = opts.path;
+          let path3 = opts.path;
           if (!opts.path.startsWith("/")) {
-            path2 = `/${path2}`;
+            path3 = `/${path3}`;
           }
-          url = new URL(util.parseOrigin(url).origin + path2);
+          url = new URL(util.parseOrigin(url).origin + path3);
         } else {
           if (!opts) {
             opts = typeof url === "object" ? url : {};
@@ -18431,7 +18439,7 @@ var require_path_utils = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.toPlatformPath = exports2.toWin32Path = exports2.toPosixPath = void 0;
-    var path2 = __importStar(require("path"));
+    var path3 = __importStar(require("path"));
     function toPosixPath(pth) {
       return pth.replace(/[\\]/g, "/");
     }
@@ -18441,7 +18449,7 @@ var require_path_utils = __commonJS({
     }
     exports2.toWin32Path = toWin32Path;
     function toPlatformPath(pth) {
-      return pth.replace(/[/\\]/g, path2.sep);
+      return pth.replace(/[/\\]/g, path3.sep);
     }
     exports2.toPlatformPath = toPlatformPath;
   }
@@ -18504,12 +18512,12 @@ var require_io_util = __commonJS({
     var _a;
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getCmdPath = exports2.tryGetExecutablePath = exports2.isRooted = exports2.isDirectory = exports2.exists = exports2.READONLY = exports2.UV_FS_O_EXLOCK = exports2.IS_WINDOWS = exports2.unlink = exports2.symlink = exports2.stat = exports2.rmdir = exports2.rm = exports2.rename = exports2.readlink = exports2.readdir = exports2.open = exports2.mkdir = exports2.lstat = exports2.copyFile = exports2.chmod = void 0;
-    var fs2 = __importStar(require("fs"));
-    var path2 = __importStar(require("path"));
-    _a = fs2.promises, exports2.chmod = _a.chmod, exports2.copyFile = _a.copyFile, exports2.lstat = _a.lstat, exports2.mkdir = _a.mkdir, exports2.open = _a.open, exports2.readdir = _a.readdir, exports2.readlink = _a.readlink, exports2.rename = _a.rename, exports2.rm = _a.rm, exports2.rmdir = _a.rmdir, exports2.stat = _a.stat, exports2.symlink = _a.symlink, exports2.unlink = _a.unlink;
+    var fs7 = __importStar(require("fs"));
+    var path3 = __importStar(require("path"));
+    _a = fs7.promises, exports2.chmod = _a.chmod, exports2.copyFile = _a.copyFile, exports2.lstat = _a.lstat, exports2.mkdir = _a.mkdir, exports2.open = _a.open, exports2.readdir = _a.readdir, exports2.readlink = _a.readlink, exports2.rename = _a.rename, exports2.rm = _a.rm, exports2.rmdir = _a.rmdir, exports2.stat = _a.stat, exports2.symlink = _a.symlink, exports2.unlink = _a.unlink;
     exports2.IS_WINDOWS = process.platform === "win32";
     exports2.UV_FS_O_EXLOCK = 268435456;
-    exports2.READONLY = fs2.constants.O_RDONLY;
+    exports2.READONLY = fs7.constants.O_RDONLY;
     function exists(fsPath) {
       return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -18554,7 +18562,7 @@ var require_io_util = __commonJS({
         }
         if (stats && stats.isFile()) {
           if (exports2.IS_WINDOWS) {
-            const upperExt = path2.extname(filePath).toUpperCase();
+            const upperExt = path3.extname(filePath).toUpperCase();
             if (extensions.some((validExt) => validExt.toUpperCase() === upperExt)) {
               return filePath;
             }
@@ -18578,11 +18586,11 @@ var require_io_util = __commonJS({
           if (stats && stats.isFile()) {
             if (exports2.IS_WINDOWS) {
               try {
-                const directory = path2.dirname(filePath);
-                const upperName = path2.basename(filePath).toUpperCase();
+                const directory = path3.dirname(filePath);
+                const upperName = path3.basename(filePath).toUpperCase();
                 for (const actualName of yield exports2.readdir(directory)) {
                   if (upperName === actualName.toUpperCase()) {
-                    filePath = path2.join(directory, actualName);
+                    filePath = path3.join(directory, actualName);
                     break;
                   }
                 }
@@ -18677,7 +18685,7 @@ var require_io = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.findInPath = exports2.which = exports2.mkdirP = exports2.rmRF = exports2.mv = exports2.cp = void 0;
     var assert_1 = require("assert");
-    var path2 = __importStar(require("path"));
+    var path3 = __importStar(require("path"));
     var ioUtil = __importStar(require_io_util());
     function cp(source, dest, options = {}) {
       return __awaiter(this, void 0, void 0, function* () {
@@ -18686,7 +18694,7 @@ var require_io = __commonJS({
         if (destStat && destStat.isFile() && !force) {
           return;
         }
-        const newDest = destStat && destStat.isDirectory() && copySourceDirectory ? path2.join(dest, path2.basename(source)) : dest;
+        const newDest = destStat && destStat.isDirectory() && copySourceDirectory ? path3.join(dest, path3.basename(source)) : dest;
         if (!(yield ioUtil.exists(source))) {
           throw new Error(`no such file or directory: ${source}`);
         }
@@ -18698,7 +18706,7 @@ var require_io = __commonJS({
             yield cpDirRecursive(source, newDest, 0, force);
           }
         } else {
-          if (path2.relative(source, newDest) === "") {
+          if (path3.relative(source, newDest) === "") {
             throw new Error(`'${newDest}' and '${source}' are the same file`);
           }
           yield copyFile(source, newDest, force);
@@ -18711,7 +18719,7 @@ var require_io = __commonJS({
         if (yield ioUtil.exists(dest)) {
           let destExists = true;
           if (yield ioUtil.isDirectory(dest)) {
-            dest = path2.join(dest, path2.basename(source));
+            dest = path3.join(dest, path3.basename(source));
             destExists = yield ioUtil.exists(dest);
           }
           if (destExists) {
@@ -18722,7 +18730,7 @@ var require_io = __commonJS({
             }
           }
         }
-        yield mkdirP(path2.dirname(dest));
+        yield mkdirP(path3.dirname(dest));
         yield ioUtil.rename(source, dest);
       });
     }
@@ -18785,7 +18793,7 @@ var require_io = __commonJS({
         }
         const extensions = [];
         if (ioUtil.IS_WINDOWS && process.env["PATHEXT"]) {
-          for (const extension of process.env["PATHEXT"].split(path2.delimiter)) {
+          for (const extension of process.env["PATHEXT"].split(path3.delimiter)) {
             if (extension) {
               extensions.push(extension);
             }
@@ -18798,12 +18806,12 @@ var require_io = __commonJS({
           }
           return [];
         }
-        if (tool.includes(path2.sep)) {
+        if (tool.includes(path3.sep)) {
           return [];
         }
         const directories = [];
         if (process.env.PATH) {
-          for (const p of process.env.PATH.split(path2.delimiter)) {
+          for (const p of process.env.PATH.split(path3.delimiter)) {
             if (p) {
               directories.push(p);
             }
@@ -18811,7 +18819,7 @@ var require_io = __commonJS({
         }
         const matches = [];
         for (const directory of directories) {
-          const filePath = yield ioUtil.tryGetExecutablePath(path2.join(directory, tool), extensions);
+          const filePath = yield ioUtil.tryGetExecutablePath(path3.join(directory, tool), extensions);
           if (filePath) {
             matches.push(filePath);
           }
@@ -18924,10 +18932,10 @@ var require_toolrunner = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.argStringToArray = exports2.ToolRunner = void 0;
-    var os = __importStar(require("os"));
+    var os2 = __importStar(require("os"));
     var events = __importStar(require("events"));
     var child = __importStar(require("child_process"));
-    var path2 = __importStar(require("path"));
+    var path3 = __importStar(require("path"));
     var io = __importStar(require_io());
     var ioUtil = __importStar(require_io_util());
     var timers_1 = require("timers");
@@ -18979,12 +18987,12 @@ var require_toolrunner = __commonJS({
       _processLineBuffer(data, strBuffer, onLine) {
         try {
           let s = strBuffer + data.toString();
-          let n = s.indexOf(os.EOL);
+          let n = s.indexOf(os2.EOL);
           while (n > -1) {
             const line = s.substring(0, n);
             onLine(line);
-            s = s.substring(n + os.EOL.length);
-            n = s.indexOf(os.EOL);
+            s = s.substring(n + os2.EOL.length);
+            n = s.indexOf(os2.EOL);
           }
           return s;
         } catch (err) {
@@ -19142,7 +19150,7 @@ var require_toolrunner = __commonJS({
       exec() {
         return __awaiter(this, void 0, void 0, function* () {
           if (!ioUtil.isRooted(this.toolPath) && (this.toolPath.includes("/") || IS_WINDOWS && this.toolPath.includes("\\"))) {
-            this.toolPath = path2.resolve(process.cwd(), this.options.cwd || process.cwd(), this.toolPath);
+            this.toolPath = path3.resolve(process.cwd(), this.options.cwd || process.cwd(), this.toolPath);
           }
           this.toolPath = yield io.which(this.toolPath, true);
           return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
@@ -19153,7 +19161,7 @@ var require_toolrunner = __commonJS({
             }
             const optionsNonNull = this._cloneExecOptions(this.options);
             if (!optionsNonNull.silent && optionsNonNull.outStream) {
-              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os.EOL);
+              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os2.EOL);
             }
             const state = new ExecState(optionsNonNull, this.toolPath);
             state.on("debug", (message) => {
@@ -19641,8 +19649,8 @@ var require_core = __commonJS({
     var command_1 = require_command();
     var file_command_1 = require_file_command();
     var utils_1 = require_utils();
-    var os = __importStar(require("os"));
-    var path2 = __importStar(require("path"));
+    var os2 = __importStar(require("os"));
+    var path3 = __importStar(require("path"));
     var oidc_utils_1 = require_oidc_utils();
     var ExitCode;
     (function(ExitCode2) {
@@ -19670,7 +19678,7 @@ var require_core = __commonJS({
       } else {
         (0, command_1.issueCommand)("add-path", {}, inputPath);
       }
-      process.env["PATH"] = `${inputPath}${path2.delimiter}${process.env["PATH"]}`;
+      process.env["PATH"] = `${inputPath}${path3.delimiter}${process.env["PATH"]}`;
     }
     exports2.addPath = addPath;
     function getInput2(name, options) {
@@ -19709,7 +19717,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       if (filePath) {
         return (0, file_command_1.issueFileCommand)("OUTPUT", (0, file_command_1.prepareKeyValueMessage)(name, value));
       }
-      process.stdout.write(os.EOL);
+      process.stdout.write(os2.EOL);
       (0, command_1.issueCommand)("set-output", { name }, (0, utils_1.toCommandValue)(value));
     }
     exports2.setOutput = setOutput2;
@@ -19743,7 +19751,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports2.notice = notice;
     function info2(message) {
-      process.stdout.write(message + os.EOL);
+      process.stdout.write(message + os2.EOL);
     }
     exports2.info = info2;
     function startGroup(name) {
@@ -19807,10 +19815,732 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
   }
 });
 
+// node_modules/is-docker/index.js
+function hasDockerEnv() {
+  try {
+    import_node_fs.default.statSync("/.dockerenv");
+    return true;
+  } catch {
+    return false;
+  }
+}
+function hasDockerCGroup() {
+  try {
+    return import_node_fs.default.readFileSync("/proc/self/cgroup", "utf8").includes("docker");
+  } catch {
+    return false;
+  }
+}
+function isDocker() {
+  if (isDockerCached === void 0) {
+    isDockerCached = hasDockerEnv() || hasDockerCGroup();
+  }
+  return isDockerCached;
+}
+var import_node_fs, isDockerCached;
+var init_is_docker = __esm({
+  "node_modules/is-docker/index.js"() {
+    import_node_fs = __toESM(require("node:fs"), 1);
+  }
+});
+
+// node_modules/is-inside-container/index.js
+function isInsideContainer() {
+  if (cachedResult === void 0) {
+    cachedResult = hasContainerEnv() || isDocker();
+  }
+  return cachedResult;
+}
+var import_node_fs2, cachedResult, hasContainerEnv;
+var init_is_inside_container = __esm({
+  "node_modules/is-inside-container/index.js"() {
+    import_node_fs2 = __toESM(require("node:fs"), 1);
+    init_is_docker();
+    hasContainerEnv = () => {
+      try {
+        import_node_fs2.default.statSync("/run/.containerenv");
+        return true;
+      } catch {
+        return false;
+      }
+    };
+  }
+});
+
+// node_modules/is-wsl/index.js
+var import_node_process, import_node_os, import_node_fs3, isWsl, is_wsl_default;
+var init_is_wsl = __esm({
+  "node_modules/is-wsl/index.js"() {
+    import_node_process = __toESM(require("node:process"), 1);
+    import_node_os = __toESM(require("node:os"), 1);
+    import_node_fs3 = __toESM(require("node:fs"), 1);
+    init_is_inside_container();
+    isWsl = () => {
+      if (import_node_process.default.platform !== "linux") {
+        return false;
+      }
+      if (import_node_os.default.release().toLowerCase().includes("microsoft")) {
+        if (isInsideContainer()) {
+          return false;
+        }
+        return true;
+      }
+      try {
+        return import_node_fs3.default.readFileSync("/proc/version", "utf8").toLowerCase().includes("microsoft") ? !isInsideContainer() : false;
+      } catch {
+        return false;
+      }
+    };
+    is_wsl_default = import_node_process.default.env.__IS_WSL_TEST__ ? isWsl : isWsl();
+  }
+});
+
+// node_modules/wsl-utils/index.js
+var import_node_process2, import_promises, wslDrivesMountPoint, powerShellPathFromWsl, powerShellPath;
+var init_wsl_utils = __esm({
+  "node_modules/wsl-utils/index.js"() {
+    import_node_process2 = __toESM(require("node:process"), 1);
+    import_promises = __toESM(require("node:fs/promises"), 1);
+    init_is_wsl();
+    init_is_wsl();
+    wslDrivesMountPoint = /* @__PURE__ */ (() => {
+      const defaultMountPoint = "/mnt/";
+      let mountPoint;
+      return async function() {
+        if (mountPoint) {
+          return mountPoint;
+        }
+        const configFilePath = "/etc/wsl.conf";
+        let isConfigFileExists = false;
+        try {
+          await import_promises.default.access(configFilePath, import_promises.constants.F_OK);
+          isConfigFileExists = true;
+        } catch {
+        }
+        if (!isConfigFileExists) {
+          return defaultMountPoint;
+        }
+        const configContent = await import_promises.default.readFile(configFilePath, { encoding: "utf8" });
+        const configMountPoint = /(?<!#.*)root\s*=\s*(?<mountPoint>.*)/g.exec(configContent);
+        if (!configMountPoint) {
+          return defaultMountPoint;
+        }
+        mountPoint = configMountPoint.groups.mountPoint.trim();
+        mountPoint = mountPoint.endsWith("/") ? mountPoint : `${mountPoint}/`;
+        return mountPoint;
+      };
+    })();
+    powerShellPathFromWsl = async () => {
+      const mountPoint = await wslDrivesMountPoint();
+      return `${mountPoint}c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe`;
+    };
+    powerShellPath = async () => {
+      if (is_wsl_default) {
+        return powerShellPathFromWsl();
+      }
+      return `${import_node_process2.default.env.SYSTEMROOT || import_node_process2.default.env.windir || String.raw`C:\Windows`}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`;
+    };
+  }
+});
+
+// node_modules/define-lazy-prop/index.js
+function defineLazyProperty(object, propertyName, valueGetter) {
+  const define = (value) => Object.defineProperty(object, propertyName, { value, enumerable: true, writable: true });
+  Object.defineProperty(object, propertyName, {
+    configurable: true,
+    enumerable: true,
+    get() {
+      const result = valueGetter();
+      define(result);
+      return result;
+    },
+    set(value) {
+      define(value);
+    }
+  });
+  return object;
+}
+var init_define_lazy_prop = __esm({
+  "node_modules/define-lazy-prop/index.js"() {
+  }
+});
+
+// node_modules/default-browser-id/index.js
+async function defaultBrowserId() {
+  if (import_node_process3.default.platform !== "darwin") {
+    throw new Error("macOS only");
+  }
+  const { stdout } = await execFileAsync("defaults", ["read", "com.apple.LaunchServices/com.apple.launchservices.secure", "LSHandlers"]);
+  const match = /LSHandlerRoleAll = "(?!-)(?<id>[^"]+?)";\s+?LSHandlerURLScheme = (?:http|https);/.exec(stdout);
+  const browserId = match?.groups.id ?? "com.apple.Safari";
+  if (browserId === "com.apple.safari") {
+    return "com.apple.Safari";
+  }
+  return browserId;
+}
+var import_node_util, import_node_process3, import_node_child_process, execFileAsync;
+var init_default_browser_id = __esm({
+  "node_modules/default-browser-id/index.js"() {
+    import_node_util = require("node:util");
+    import_node_process3 = __toESM(require("node:process"), 1);
+    import_node_child_process = require("node:child_process");
+    execFileAsync = (0, import_node_util.promisify)(import_node_child_process.execFile);
+  }
+});
+
+// node_modules/run-applescript/index.js
+async function runAppleScript(script, { humanReadableOutput = true, signal } = {}) {
+  if (import_node_process4.default.platform !== "darwin") {
+    throw new Error("macOS only");
+  }
+  const outputArguments = humanReadableOutput ? [] : ["-ss"];
+  const execOptions = {};
+  if (signal) {
+    execOptions.signal = signal;
+  }
+  const { stdout } = await execFileAsync2("osascript", ["-e", script, outputArguments], execOptions);
+  return stdout.trim();
+}
+var import_node_process4, import_node_util2, import_node_child_process2, execFileAsync2;
+var init_run_applescript = __esm({
+  "node_modules/run-applescript/index.js"() {
+    import_node_process4 = __toESM(require("node:process"), 1);
+    import_node_util2 = require("node:util");
+    import_node_child_process2 = require("node:child_process");
+    execFileAsync2 = (0, import_node_util2.promisify)(import_node_child_process2.execFile);
+  }
+});
+
+// node_modules/bundle-name/index.js
+async function bundleName(bundleId) {
+  return runAppleScript(`tell application "Finder" to set app_path to application file id "${bundleId}" as string
+tell application "System Events" to get value of property list item "CFBundleName" of property list file (app_path & ":Contents:Info.plist")`);
+}
+var init_bundle_name = __esm({
+  "node_modules/bundle-name/index.js"() {
+    init_run_applescript();
+  }
+});
+
+// node_modules/default-browser/windows.js
+async function defaultBrowser(_execFileAsync = execFileAsync3) {
+  const { stdout } = await _execFileAsync("reg", [
+    "QUERY",
+    " HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\Shell\\Associations\\UrlAssociations\\http\\UserChoice",
+    "/v",
+    "ProgId"
+  ]);
+  const match = /ProgId\s*REG_SZ\s*(?<id>\S+)/.exec(stdout);
+  if (!match) {
+    throw new UnknownBrowserError(`Cannot find Windows browser in stdout: ${JSON.stringify(stdout)}`);
+  }
+  const { id } = match.groups;
+  const dotIndex = id.lastIndexOf(".");
+  const hyphenIndex = id.lastIndexOf("-");
+  const baseIdByDot = dotIndex === -1 ? void 0 : id.slice(0, dotIndex);
+  const baseIdByHyphen = hyphenIndex === -1 ? void 0 : id.slice(0, hyphenIndex);
+  return windowsBrowserProgIds[id] ?? windowsBrowserProgIds[baseIdByDot] ?? windowsBrowserProgIds[baseIdByHyphen] ?? { name: id, id };
+}
+var import_node_util3, import_node_child_process3, execFileAsync3, windowsBrowserProgIds, _windowsBrowserProgIdMap, UnknownBrowserError;
+var init_windows = __esm({
+  "node_modules/default-browser/windows.js"() {
+    import_node_util3 = require("node:util");
+    import_node_child_process3 = require("node:child_process");
+    execFileAsync3 = (0, import_node_util3.promisify)(import_node_child_process3.execFile);
+    windowsBrowserProgIds = {
+      MSEdgeHTM: { name: "Edge", id: "com.microsoft.edge" },
+      // The missing `L` is correct.
+      MSEdgeBHTML: { name: "Edge Beta", id: "com.microsoft.edge.beta" },
+      MSEdgeDHTML: { name: "Edge Dev", id: "com.microsoft.edge.dev" },
+      AppXq0fevzme2pys62n3e0fbqa7peapykr8v: { name: "Edge", id: "com.microsoft.edge.old" },
+      ChromeHTML: { name: "Chrome", id: "com.google.chrome" },
+      ChromeBHTML: { name: "Chrome Beta", id: "com.google.chrome.beta" },
+      ChromeDHTML: { name: "Chrome Dev", id: "com.google.chrome.dev" },
+      ChromiumHTM: { name: "Chromium", id: "org.chromium.Chromium" },
+      BraveHTML: { name: "Brave", id: "com.brave.Browser" },
+      BraveBHTML: { name: "Brave Beta", id: "com.brave.Browser.beta" },
+      BraveDHTML: { name: "Brave Dev", id: "com.brave.Browser.dev" },
+      BraveSSHTM: { name: "Brave Nightly", id: "com.brave.Browser.nightly" },
+      FirefoxURL: { name: "Firefox", id: "org.mozilla.firefox" },
+      OperaStable: { name: "Opera", id: "com.operasoftware.Opera" },
+      VivaldiHTM: { name: "Vivaldi", id: "com.vivaldi.Vivaldi" },
+      "IE.HTTP": { name: "Internet Explorer", id: "com.microsoft.ie" }
+    };
+    _windowsBrowserProgIdMap = new Map(Object.entries(windowsBrowserProgIds));
+    UnknownBrowserError = class extends Error {
+    };
+  }
+});
+
+// node_modules/default-browser/index.js
+async function defaultBrowser2() {
+  if (import_node_process5.default.platform === "darwin") {
+    const id = await defaultBrowserId();
+    const name = await bundleName(id);
+    return { name, id };
+  }
+  if (import_node_process5.default.platform === "linux") {
+    const { stdout } = await execFileAsync4("xdg-mime", ["query", "default", "x-scheme-handler/http"]);
+    const id = stdout.trim();
+    const name = titleize(id.replace(/.desktop$/, "").replace("-", " "));
+    return { name, id };
+  }
+  if (import_node_process5.default.platform === "win32") {
+    return defaultBrowser();
+  }
+  throw new Error("Only macOS, Linux, and Windows are supported");
+}
+var import_node_util4, import_node_process5, import_node_child_process4, execFileAsync4, titleize;
+var init_default_browser = __esm({
+  "node_modules/default-browser/index.js"() {
+    import_node_util4 = require("node:util");
+    import_node_process5 = __toESM(require("node:process"), 1);
+    import_node_child_process4 = require("node:child_process");
+    init_default_browser_id();
+    init_bundle_name();
+    init_windows();
+    execFileAsync4 = (0, import_node_util4.promisify)(import_node_child_process4.execFile);
+    titleize = (string) => string.toLowerCase().replaceAll(/(?:^|\s|-)\S/g, (x) => x.toUpperCase());
+  }
+});
+
+// node_modules/open/index.js
+var open_exports = {};
+__export(open_exports, {
+  apps: () => apps,
+  default: () => open_default,
+  openApp: () => openApp
+});
+async function getWindowsDefaultBrowserFromWsl() {
+  const powershellPath = await powerShellPath();
+  const rawCommand = String.raw`(Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice").ProgId`;
+  const encodedCommand = import_node_buffer.Buffer.from(rawCommand, "utf16le").toString("base64");
+  const { stdout } = await execFile5(
+    powershellPath,
+    [
+      "-NoProfile",
+      "-NonInteractive",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-EncodedCommand",
+      encodedCommand
+    ],
+    { encoding: "utf8" }
+  );
+  const progId = stdout.trim();
+  const browserMap = {
+    ChromeHTML: "com.google.chrome",
+    BraveHTML: "com.brave.Browser",
+    MSEdgeHTM: "com.microsoft.edge",
+    FirefoxURL: "org.mozilla.firefox"
+  };
+  return browserMap[progId] ? { id: browserMap[progId] } : {};
+}
+function detectArchBinary(binary) {
+  if (typeof binary === "string" || Array.isArray(binary)) {
+    return binary;
+  }
+  const { [arch]: archBinary } = binary;
+  if (!archBinary) {
+    throw new Error(`${arch} is not supported`);
+  }
+  return archBinary;
+}
+function detectPlatformBinary({ [platform]: platformBinary }, { wsl }) {
+  if (wsl && is_wsl_default) {
+    return detectArchBinary(wsl);
+  }
+  if (!platformBinary) {
+    throw new Error(`${platform} is not supported`);
+  }
+  return detectArchBinary(platformBinary);
+}
+var import_node_process6, import_node_buffer, import_node_path, import_node_url, import_node_util5, import_node_child_process5, import_promises2, import_meta, execFile5, __dirname, localXdgOpenPath, platform, arch, pTryEach, baseOpen, open, openApp, apps, open_default;
+var init_open = __esm({
+  "node_modules/open/index.js"() {
+    import_node_process6 = __toESM(require("node:process"), 1);
+    import_node_buffer = require("node:buffer");
+    import_node_path = __toESM(require("node:path"), 1);
+    import_node_url = require("node:url");
+    import_node_util5 = require("node:util");
+    import_node_child_process5 = __toESM(require("node:child_process"), 1);
+    import_promises2 = __toESM(require("node:fs/promises"), 1);
+    init_wsl_utils();
+    init_define_lazy_prop();
+    init_default_browser();
+    init_is_inside_container();
+    import_meta = {};
+    execFile5 = (0, import_node_util5.promisify)(import_node_child_process5.default.execFile);
+    __dirname = import_node_path.default.dirname((0, import_node_url.fileURLToPath)(import_meta.url));
+    localXdgOpenPath = import_node_path.default.join(__dirname, "xdg-open");
+    ({ platform, arch } = import_node_process6.default);
+    pTryEach = async (array, mapper) => {
+      let latestError;
+      for (const item of array) {
+        try {
+          return await mapper(item);
+        } catch (error) {
+          latestError = error;
+        }
+      }
+      throw latestError;
+    };
+    baseOpen = async (options) => {
+      options = {
+        wait: false,
+        background: false,
+        newInstance: false,
+        allowNonzeroExitCode: false,
+        ...options
+      };
+      if (Array.isArray(options.app)) {
+        return pTryEach(options.app, (singleApp) => baseOpen({
+          ...options,
+          app: singleApp
+        }));
+      }
+      let { name: app, arguments: appArguments = [] } = options.app ?? {};
+      appArguments = [...appArguments];
+      if (Array.isArray(app)) {
+        return pTryEach(app, (appName) => baseOpen({
+          ...options,
+          app: {
+            name: appName,
+            arguments: appArguments
+          }
+        }));
+      }
+      if (app === "browser" || app === "browserPrivate") {
+        const ids = {
+          "com.google.chrome": "chrome",
+          "google-chrome.desktop": "chrome",
+          "com.brave.Browser": "brave",
+          "org.mozilla.firefox": "firefox",
+          "firefox.desktop": "firefox",
+          "com.microsoft.msedge": "edge",
+          "com.microsoft.edge": "edge",
+          "com.microsoft.edgemac": "edge",
+          "microsoft-edge.desktop": "edge"
+        };
+        const flags = {
+          chrome: "--incognito",
+          brave: "--incognito",
+          firefox: "--private-window",
+          edge: "--inPrivate"
+        };
+        const browser = is_wsl_default ? await getWindowsDefaultBrowserFromWsl() : await defaultBrowser2();
+        if (browser.id in ids) {
+          const browserName = ids[browser.id];
+          if (app === "browserPrivate") {
+            appArguments.push(flags[browserName]);
+          }
+          return baseOpen({
+            ...options,
+            app: {
+              name: apps[browserName],
+              arguments: appArguments
+            }
+          });
+        }
+        throw new Error(`${browser.name} is not supported as a default browser`);
+      }
+      let command;
+      const cliArguments = [];
+      const childProcessOptions = {};
+      if (platform === "darwin") {
+        command = "open";
+        if (options.wait) {
+          cliArguments.push("--wait-apps");
+        }
+        if (options.background) {
+          cliArguments.push("--background");
+        }
+        if (options.newInstance) {
+          cliArguments.push("--new");
+        }
+        if (app) {
+          cliArguments.push("-a", app);
+        }
+      } else if (platform === "win32" || is_wsl_default && !isInsideContainer() && !app) {
+        command = await powerShellPath();
+        cliArguments.push(
+          "-NoProfile",
+          "-NonInteractive",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-EncodedCommand"
+        );
+        if (!is_wsl_default) {
+          childProcessOptions.windowsVerbatimArguments = true;
+        }
+        const encodedArguments = ["Start"];
+        if (options.wait) {
+          encodedArguments.push("-Wait");
+        }
+        if (app) {
+          encodedArguments.push(`"\`"${app}\`""`);
+          if (options.target) {
+            appArguments.push(options.target);
+          }
+        } else if (options.target) {
+          encodedArguments.push(`"${options.target}"`);
+        }
+        if (appArguments.length > 0) {
+          appArguments = appArguments.map((argument) => `"\`"${argument}\`""`);
+          encodedArguments.push("-ArgumentList", appArguments.join(","));
+        }
+        options.target = import_node_buffer.Buffer.from(encodedArguments.join(" "), "utf16le").toString("base64");
+      } else {
+        if (app) {
+          command = app;
+        } else {
+          const isBundled = !__dirname || __dirname === "/";
+          let exeLocalXdgOpen = false;
+          try {
+            await import_promises2.default.access(localXdgOpenPath, import_promises2.constants.X_OK);
+            exeLocalXdgOpen = true;
+          } catch {
+          }
+          const useSystemXdgOpen = import_node_process6.default.versions.electron ?? (platform === "android" || isBundled || !exeLocalXdgOpen);
+          command = useSystemXdgOpen ? "xdg-open" : localXdgOpenPath;
+        }
+        if (appArguments.length > 0) {
+          cliArguments.push(...appArguments);
+        }
+        if (!options.wait) {
+          childProcessOptions.stdio = "ignore";
+          childProcessOptions.detached = true;
+        }
+      }
+      if (platform === "darwin" && appArguments.length > 0) {
+        cliArguments.push("--args", ...appArguments);
+      }
+      if (options.target) {
+        cliArguments.push(options.target);
+      }
+      const subprocess = import_node_child_process5.default.spawn(command, cliArguments, childProcessOptions);
+      if (options.wait) {
+        return new Promise((resolve, reject) => {
+          subprocess.once("error", reject);
+          subprocess.once("close", (exitCode) => {
+            if (!options.allowNonzeroExitCode && exitCode > 0) {
+              reject(new Error(`Exited with code ${exitCode}`));
+              return;
+            }
+            resolve(subprocess);
+          });
+        });
+      }
+      subprocess.unref();
+      return subprocess;
+    };
+    open = (target, options) => {
+      if (typeof target !== "string") {
+        throw new TypeError("Expected a `target`");
+      }
+      return baseOpen({
+        ...options,
+        target
+      });
+    };
+    openApp = (name, options) => {
+      if (typeof name !== "string" && !Array.isArray(name)) {
+        throw new TypeError("Expected a valid `name`");
+      }
+      const { arguments: appArguments = [] } = options ?? {};
+      if (appArguments !== void 0 && appArguments !== null && !Array.isArray(appArguments)) {
+        throw new TypeError("Expected `appArguments` as Array type");
+      }
+      return baseOpen({
+        ...options,
+        app: {
+          name,
+          arguments: appArguments
+        }
+      });
+    };
+    apps = {};
+    defineLazyProperty(apps, "chrome", () => detectPlatformBinary({
+      darwin: "google chrome",
+      win32: "chrome",
+      linux: ["google-chrome", "google-chrome-stable", "chromium"]
+    }, {
+      wsl: {
+        ia32: "/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+        x64: ["/mnt/c/Program Files/Google/Chrome/Application/chrome.exe", "/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe"]
+      }
+    }));
+    defineLazyProperty(apps, "brave", () => detectPlatformBinary({
+      darwin: "brave browser",
+      win32: "brave",
+      linux: ["brave-browser", "brave"]
+    }, {
+      wsl: {
+        ia32: "/mnt/c/Program Files (x86)/BraveSoftware/Brave-Browser/Application/brave.exe",
+        x64: ["/mnt/c/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe", "/mnt/c/Program Files (x86)/BraveSoftware/Brave-Browser/Application/brave.exe"]
+      }
+    }));
+    defineLazyProperty(apps, "firefox", () => detectPlatformBinary({
+      darwin: "firefox",
+      win32: String.raw`C:\Program Files\Mozilla Firefox\firefox.exe`,
+      linux: "firefox"
+    }, {
+      wsl: "/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
+    }));
+    defineLazyProperty(apps, "edge", () => detectPlatformBinary({
+      darwin: "microsoft edge",
+      win32: "msedge",
+      linux: ["microsoft-edge", "microsoft-edge-dev"]
+    }, {
+      wsl: "/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+    }));
+    defineLazyProperty(apps, "browser", () => "browser");
+    defineLazyProperty(apps, "browserPrivate", () => "browserPrivate");
+    open_default = open;
+  }
+});
+
+// node_modules/@heyputer/puter.js/src/init.cjs
+var require_init = __commonJS({
+  "node_modules/@heyputer/puter.js/src/init.cjs"(exports2, module2) {
+    var { readFileSync } = require("node:fs");
+    var vm = require("node:vm");
+    var { resolve } = require("node:path");
+    var { IncomingMessage } = require("node:http");
+    var open2 = (init_open(), __toCommonJS(open_exports));
+    var init2 = (authToken) => {
+      const goodContext = {
+        PUTER_API_ORIGIN: globalThis.PUTER_API_ORIGIN,
+        PUTER_ORIGIN: globalThis.PUTER_ORIGIN
+      };
+      Object.getOwnPropertyNames(globalThis).forEach((name) => {
+        try {
+          goodContext[name] = globalThis[name];
+        } catch {
+        }
+      });
+      goodContext.globalThis = goodContext;
+      const code = readFileSync(`${resolve(__filename, "..")}/../dist/puter.cjs`, "utf8");
+      const context = vm.createContext(goodContext);
+      vm.runInNewContext(code, context);
+      if (authToken) {
+        goodContext.puter.setAuthToken(authToken);
+      }
+      return goodContext.puter;
+    };
+    var getAuthToken = (guiOrigin = "https://puter.com") => {
+      const http = require("http");
+      return new Promise((resolve2) => {
+        const requestListener = function(req, res) {
+          res.writeHead(200, { "Content-Type": "text/html" });
+          res.end(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Successful - Puter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #404C71;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 48px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 420px;
+            margin: 20px;
+        }
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00c853 0%, #00e676 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: scaleIn 0.5s ease-out;
+        }
+        .checkmark svg {
+            width: 40px;
+            height: 40px;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+            animation: drawCheck 0.6s ease-out 0.3s forwards;
+            stroke-dasharray: 50;
+            stroke-dashoffset: 50;
+        }
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        @keyframes drawCheck {
+            to { stroke-dashoffset: 0; }
+        }
+        h1 {
+            color: #1a1a2e;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        p {
+            color: #64748b;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .puter-logo {
+            margin-top: 32px;
+            opacity: 0.6;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="checkmark">
+            <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+        <h1>Authentication Successful</h1>
+        <p>You're all set! You may now close this window and return to your terminal.</p>
+        <div class="puter-logo">Powered by Puter</div>
+    </div>
+</body>
+</html>`);
+          resolve2(new URL(req.url, "http://localhost/").searchParams.get("token"));
+        };
+        const server = http.createServer(requestListener);
+        server.listen(0, function() {
+          const url = `${guiOrigin}/?action=authme&redirectURL=${encodeURIComponent("http://localhost:") + this.address().port}`;
+          open2.default(url);
+        });
+      });
+    };
+    module2.exports = { init: init2, getAuthToken };
+  }
+});
+
 // src/deploy.mjs
 var core = __toESM(require_core(), 1);
-var import_promises = __toESM(require("node:fs/promises"), 1);
-var import_node_path = __toESM(require("node:path"), 1);
+var import_init = __toESM(require_init(), 1);
+var import_promises3 = __toESM(require("node:fs/promises"), 1);
+var import_node_path2 = __toESM(require("node:path"), 1);
 var NOT_FOUND_CODES = /* @__PURE__ */ new Set(["entity_not_found", "not_found"]);
 function isNotFoundError(error) {
   const code = error?.error?.code ?? error?.code;
@@ -19837,20 +20567,20 @@ function joinPuterPath(basePath, relativePath = "") {
 }
 async function pathExists(targetPath) {
   try {
-    await import_promises.default.access(targetPath);
+    await import_promises3.default.access(targetPath);
     return true;
   } catch {
     return false;
   }
 }
 async function collectFiles(sourcePath, includeHidden) {
-  const sourceStat = await import_promises.default.lstat(sourcePath);
+  const sourceStat = await import_promises3.default.lstat(sourcePath);
   const files = [];
   const shouldSkipName = (name) => !includeHidden && name.startsWith(".");
   if (sourceStat.isFile()) {
     files.push({
       absolutePath: sourcePath,
-      relativePath: import_node_path.default.basename(sourcePath)
+      relativePath: import_node_path2.default.basename(sourcePath)
     });
     return files;
   }
@@ -19858,12 +20588,12 @@ async function collectFiles(sourcePath, includeHidden) {
     throw new Error(`source_path must be a file or directory. Received: ${sourcePath}`);
   }
   async function walk(currentPath) {
-    const entries = await import_promises.default.readdir(currentPath, { withFileTypes: true });
+    const entries = await import_promises3.default.readdir(currentPath, { withFileTypes: true });
     for (const entry of entries) {
       if (shouldSkipName(entry.name)) {
         continue;
       }
-      const absoluteEntryPath = import_node_path.default.join(currentPath, entry.name);
+      const absoluteEntryPath = import_node_path2.default.join(currentPath, entry.name);
       if (entry.isDirectory()) {
         await walk(absoluteEntryPath);
         continue;
@@ -19871,7 +20601,7 @@ async function collectFiles(sourcePath, includeHidden) {
       if (entry.isFile()) {
         files.push({
           absolutePath: absoluteEntryPath,
-          relativePath: import_node_path.default.relative(sourcePath, absoluteEntryPath)
+          relativePath: import_node_path2.default.relative(sourcePath, absoluteEntryPath)
         });
         continue;
       }
@@ -19957,7 +20687,7 @@ async function run() {
   const concurrencyInput = Number.parseInt(core.getInput("concurrency") || "8", 10);
   const concurrency = Number.isFinite(concurrencyInput) && concurrencyInput > 0 ? concurrencyInput : 8;
   const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
-  const sourcePath = import_node_path.default.resolve(workspace, sourcePathInput);
+  const sourcePath = import_node_path2.default.resolve(workspace, sourcePathInput);
   if (!subdomain) {
     throw new Error("Input 'subdomain' cannot be empty.");
   }
@@ -19974,14 +20704,14 @@ async function run() {
   core.info(`Source path: ${sourcePath}`);
   core.info(`Puter path: ${puterPath}`);
   core.info(`Subdomain: ${subdomain}`);
-  const puter = init(token);
+  const puter = (0, import_init.init)(token);
   const rootDir = await ensureRemoteDirectory(puter, puterPath);
   const files = await collectFiles(sourcePath, includeHidden);
   core.info(`Discovered ${files.length} file(s) to upload`);
   await withConcurrency(files, concurrency, async (file) => {
-    const relativePosix = file.relativePath.split(import_node_path.default.sep).join("/");
+    const relativePosix = file.relativePath.split(import_node_path2.default.sep).join("/");
     const remoteFilePath = joinPuterPath(puterPath, relativePosix);
-    const data = await import_promises.default.readFile(file.absolutePath);
+    const data = await import_promises3.default.readFile(file.absolutePath);
     await puter.fs.write(remoteFilePath, data, {
       overwrite: true,
       dedupeName: false,

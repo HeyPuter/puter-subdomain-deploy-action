@@ -1,4 +1,5 @@
 import * as core from "@actions/core";
+import { init } from "@heyputer/puter.js/src/init.cjs";
 import fs from "node:fs/promises";
 import path from "node:path";
 
