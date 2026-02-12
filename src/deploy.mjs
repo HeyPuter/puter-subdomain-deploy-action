@@ -4,6 +4,15 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 const NOT_FOUND_CODES = new Set(["entity_not_found", "not_found"]);
+const ALREADY_EXISTS_CODES = new Set(["already_exists", "entity_exists", "file_exists", "exists", "directory_exists"]);
+
+function safeJSON(value) {
+    try {
+        return JSON.stringify(value);
+    } catch {
+        return String(value);
+    }
+}
 
 function isNotFoundError(error) {
     const code = error?.error?.code ?? error?.code;
@@ -26,6 +35,37 @@ function isNotFoundError(error) {
         .toLowerCase();
 
     return message.includes("not found") || message.includes("no entry found");
+}
+
+function isAlreadyExistsError(error) {
+    const code = error?.error?.code ?? error?.code;
+    if (code && ALREADY_EXISTS_CODES.has(String(code).toLowerCase())) {
+        return true;
+    }
+
+    const message = [
+        error?.error?.message,
+        error?.message,
+        typeof error === "string" ? error : "",
+    ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+    return message.includes("already exists");
+}
+
+function isDirectoryMetadata(entry) {
+    if (!entry || typeof entry !== "object") {
+        return false;
+    }
+
+    if (entry.isDirectory === true || entry.is_dir === true || entry.isDir === true) {
+        return true;
+    }
+
+    const type = String(entry.type ?? entry.kind ?? entry.entry_type ?? "").toLowerCase();
+    return type === "directory" || type === "dir" || type === "folder";
 }
 
 function joinPuterPath(basePath, relativePath = "") {
@@ -99,8 +139,8 @@ async function collectFiles(sourcePath, includeHidden) {
 async function ensureRemoteDirectory(puter, puterPath) {
     try {
         const existing = await puter.fs.stat(puterPath);
-        if (!existing?.isDirectory) {
-            throw new Error(`Puter path exists but is not a directory: ${puterPath}`);
+        if (!isDirectoryMetadata(existing)) {
+            throw new Error(`Puter path exists but is not a directory: ${puterPath}. stat=${safeJSON(existing)}`);
         }
         return existing;
     } catch (error) {
@@ -112,15 +152,17 @@ async function ensureRemoteDirectory(puter, puterPath) {
     try {
         await puter.fs.mkdir(puterPath, { createMissingParents: true });
     } catch (error) {
-        if (!isNotFoundError(error)) {
-            // mkdir may fail due to races/exists; stat() below is the source of truth.
-            core.info(`mkdir returned non-fatal error, rechecking target directory: ${JSON.stringify(error)}`);
+        if (!isAlreadyExistsError(error)) {
+            throw error;
         }
+
+        // mkdir may fail due to races/exists; stat() below is the source of truth.
+        core.info(`mkdir reported existing directory, rechecking target: ${safeJSON(error)}`);
     }
 
     const created = await puter.fs.stat(puterPath);
-    if (!created?.isDirectory) {
-        throw new Error(`Failed to create Puter directory: ${puterPath}`);
+    if (!isDirectoryMetadata(created)) {
+        throw new Error(`Failed to create Puter directory: ${puterPath}. stat=${safeJSON(created)}`);
     }
     return created;
 }
