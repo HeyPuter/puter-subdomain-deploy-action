@@ -5,10 +5,15 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "scripts": {
-    "check": "node --check src/deploy.mjs"
+    "check": "node --check src/deploy.mjs",
+    "build": "esbuild src/deploy.mjs --bundle --platform=node --format=cjs --target=node24 --outfile=dist/index.js",
+    "build:clean": "rm -rf dist && npm run build"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
   },
   "dependencies": {
     "@actions/core": "^1.11.1",

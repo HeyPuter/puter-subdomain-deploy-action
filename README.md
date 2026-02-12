@@ -2,9 +2,11 @@
 
 Deploys a repository folder (or file) to Puter FS, then ensures a Puter subdomain points at that folder.
 
-This action is packaged with:
+This action is bundled into `dist/index.js` and ships with:
 - `@heyputer/puter.js`
 - `@actions/core`
+
+Runtime: GitHub Actions `node24`.
 
 ## Inputs
 
@@ -62,7 +64,10 @@ jobs:
 ```bash
 npm install
 npm run check
+npm run build
 ```
+
+Commit `dist/index.js` after building. GitHub Actions executes that committed bundle directly.
 
 ## Publish This Action
 
@@ -87,6 +92,14 @@ git push origin -f v1
 
 ```yaml
 uses: your-org/puter-subdomain-deploy-action@v1
+```
+
+When you change `src/deploy.mjs`, rebuild before tagging:
+
+```bash
+npm run build:clean
+git add src/deploy.mjs dist/index.js
+git commit -m "Rebuild action bundle"
 ```
 
 ## Publish To GitHub Marketplace (Optional)
