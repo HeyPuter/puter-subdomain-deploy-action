@@ -1,0 +1,57 @@
+name: "Puter Subdomain Deploy"
+description: "Deploy files from a repository path to Puter FS and bind/update a Puter subdomain."
+author: "Puter"
+
+inputs:
+  subdomain:
+    description: "Subdomain to deploy (e.g. my-site or my-site.puter.site)."
+    required: true
+  puter_path:
+    description: "Destination directory path in Puter FS."
+    required: true
+  puter_token:
+    description: "Puter auth token. Pass from GitHub secrets."
+    required: true
+  source_path:
+    description: "Local path in the checked out repository to deploy."
+    required: false
+    default: "."
+  include_hidden:
+    description: "Whether to include hidden files/directories (dotfiles)."
+    required: false
+    default: "false"
+  concurrency:
+    description: "Number of concurrent uploads."
+    required: false
+    default: "8"
+
+outputs:
+  deployed_files:
+    description: "Total files uploaded."
+    value: ${{ steps.deploy.outputs.deployed_files }}
+  deployment_url:
+    description: "Resolved site URL."
+    value: ${{ steps.deploy.outputs.deployment_url }}
+  binding_action:
+    description: "Subdomain binding result: created, updated, or unchanged."
+    value: ${{ steps.deploy.outputs.binding_action }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Action Dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm install --omit=dev --no-fund --no-audit
+
+    - name: Deploy To Puter
+      id: deploy
+      shell: bash
+      run: node "${{ github.action_path }}/src/deploy.mjs"
+      env:
+        INPUT_SUBDOMAIN: ${{ inputs.subdomain }}
+        INPUT_PUTER_PATH: ${{ inputs.puter_path }}
+        INPUT_PUTER_TOKEN: ${{ inputs.puter_token }}
+        INPUT_SOURCE_PATH: ${{ inputs.source_path }}
+        INPUT_INCLUDE_HIDDEN: ${{ inputs.include_hidden }}
+        INPUT_CONCURRENCY: ${{ inputs.concurrency }}
