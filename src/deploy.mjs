@@ -2,6 +2,7 @@ import * as core from "@actions/core";
 import "@heyputer/puter.js/dist/puter.cjs";
 import fs from "node:fs/promises";
 import path from "node:path";
+import util from "node:util";
 
 const NOT_FOUND_CODES = new Set(["entity_not_found", "not_found"]);
 const ALREADY_EXISTS_CODES = new Set(["already_exists", "entity_exists", "file_exists", "exists", "directory_exists"]);
@@ -12,6 +13,16 @@ function safeJSON(value) {
     } catch {
         return String(value);
     }
+}
+
+function formatError(error) {
+    if (error instanceof Error) {
+        return error.stack || error.message;
+    }
+    if (typeof error === "string") {
+        return error;
+    }
+    return util.inspect(error, { depth: 6, breakLength: 120 });
 }
 
 function isNotFoundError(error) {
@@ -66,6 +77,32 @@ function isDirectoryMetadata(entry) {
 
     const type = String(entry.type ?? entry.kind ?? entry.entry_type ?? "").toLowerCase();
     return type === "directory" || type === "dir" || type === "folder";
+}
+
+function normalizeSubdomainInput(input) {
+    const raw = String(input || "").trim().toLowerCase();
+    if (!raw) {
+        return "";
+    }
+
+    const noProtocol = raw.replace(/^https?:\/\//, "");
+    const hostOnly = noProtocol.split("/")[0];
+    const noSuffix = hostOnly.endsWith(".puter.site")
+        ? hostOnly.slice(0, -".puter.site".length)
+        : hostOnly;
+
+    if (!noSuffix) {
+        return "";
+    }
+
+    // Only support a single puter subdomain label.
+    if (noSuffix.includes(".")) {
+        throw new Error(
+            `Invalid 'subdomain' input: '${input}'. Use a single label (e.g. 'app-center-staging') or '<label>.puter.site'.`,
+        );
+    }
+
+    return noSuffix;
 }
 
 function joinPuterPath(basePath, relativePath = "") {
@@ -228,7 +265,8 @@ function initPuterFromBundle(token) {
 }
 
 async function run() {
-    const subdomain = core.getInput("subdomain", { required: true }).trim();
+    const subdomainInput = core.getInput("subdomain", { required: true }).trim();
+    const subdomain = normalizeSubdomainInput(subdomainInput);
     const puterPath = core.getInput("puter_path", { required: true }).trim();
     const token = core.getInput("puter_token", { required: true }).trim();
     const sourcePathInput = core.getInput("source_path") || ".";
@@ -275,6 +313,7 @@ async function run() {
         });
     });
 
+    core.info(`Ensuring hosting binding for subdomain: ${subdomain}`);
     const binding = await ensureSubdomainBinding(puter, subdomain, puterPath, rootDir.uid);
     const deployedSubdomain = binding.site?.subdomain ?? subdomain.split(".")[0];
     const deploymentURL = `https://${deployedSubdomain}.puter.site`;
@@ -288,6 +327,6 @@ async function run() {
 }
 
 run().catch((error) => {
-    const message = error instanceof Error ? error.stack || error.message : String(error);
+    const message = formatError(error);
     core.setFailed(message);
 });
